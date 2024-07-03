@@ -61,10 +61,15 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // navigation
+    implementation(libs.lifecycle.runtime.compose)
+
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
+    // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.gson)
