@@ -6,11 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.bookapp.presentation.ui.bookListScreen.BookListScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.bookapp.presentation.navigation.AppNavigation
 import com.example.bookapp.ui.theme.BookAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,25 +23,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    BookListScreen()
+                    val navController = rememberNavController()
+                    AppNavigation(navController = navController)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BookAppTheme {
-        Greeting("Android")
     }
 }

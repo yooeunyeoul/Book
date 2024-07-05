@@ -31,35 +31,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.bookapp.domain.model.Book
+import com.example.bookapp.presentation.util.clickableSingle
+
 
 @Composable
-fun ListView(contentList: List<Book>, listState: LazyListState) {
+fun ListView(
+    books: List<Book>,
+    listState: LazyListState,
+    onBookSelected: (String) -> Unit
+) {
     LazyColumn(state = listState) {
-        items(contentList) { item ->
-            BookListItem(book = item)
+        items(books) { book ->
+            BookListItem(book = book, onBookSelected = onBookSelected)
         }
     }
 }
 
 @Composable
-fun GridView(contentList: List<Book>, gridState: LazyGridState) {
+fun GridView(
+    books: List<Book>,
+    gridState: LazyGridState,
+    onBookSelected: (String) -> Unit
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(16.dp),
-        state = gridState
+        state = gridState,
+        contentPadding = PaddingValues(16.dp)
     ) {
-        items(contentList) { item ->
-            BookGridItem(book = item)
+        items(books) { book ->
+            BookGridItem(book = book, onBookSelected = onBookSelected)
         }
     }
 }
-
 @Composable
-fun BookListItem(book: Book) {
+fun BookListItem(book: Book, onBookSelected: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(16.dp)
+            .clickableSingle { onBookSelected(book.isbn13) }
             .background(Color.White, RoundedCornerShape(8.dp))
             .padding(16.dp)
     ) {
@@ -84,12 +94,12 @@ fun BookListItem(book: Book) {
         }
     }
 }
-
 @Composable
-fun BookGridItem(book: Book) {
+fun BookGridItem(book: Book, onBookSelected: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(8.dp)
+            .clickableSingle { onBookSelected(book.isbn13) }
             .background(Color.White, RoundedCornerShape(8.dp))
             .padding(16.dp)
     ) {
@@ -107,7 +117,6 @@ fun BookGridItem(book: Book) {
         Text(text = book.price, style = MaterialTheme.typography.bodyMedium)
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun BookGridItemPreview() {
@@ -119,5 +128,7 @@ fun BookGridItemPreview() {
         image = "https://itbook.store/img/books/9781617291609.png",
         url = "https://itbook.store/books/9781617291609"
     )
-    BookGridItem(book = book)
+    BookGridItem(book = book){
+
+    }
 }

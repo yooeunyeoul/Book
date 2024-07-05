@@ -61,8 +61,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // navigation
+    // lifecycle compose
     implementation(libs.lifecycle.runtime.compose)
+
+    // navigation compose
+    implementation(libs.navigation.compose)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -76,6 +79,10 @@ dependencies {
 
     // coil
     implementation(libs.coil.compose)
+
+    // swipe
+    implementation(libs.androidx.compose.material)
+//    implementation(libs.androidx.compose.material.swipe.to.refresh)
 
     // Test
     testImplementation(libs.junit)

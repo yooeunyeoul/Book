@@ -23,9 +23,16 @@ class BookViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _query = MutableStateFlow("")
+    val query: StateFlow<String> = _query
+
     var lastQuery: String = ""
     private var totalBooks: Int? = null // 전체 책의 수
     private var pageSize: Int = 10 // 페이지당 항목 수, 기본값은 10
+
+    init {
+        getNewBooks()
+    }
 
     fun getNewBooks() {
         viewModelScope.launch {
@@ -59,6 +66,10 @@ class BookViewModel @Inject constructor(
                 pageSize = result.books.size // 현재 페이지에서 반환된 항목 수를 페이지 크기로 설정
             }
         }
+    }
+
+    fun updateQuery(newQuery: String) {
+        _query.value = newQuery
     }
 
     fun shouldLoadMore(): Boolean {

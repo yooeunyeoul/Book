@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 @Composable
-fun setupPagination(viewModel: BookViewModel, listState: LazyListState, itemCount: Int) {
+fun SetupPagination(viewModel: BookViewModel, listState: LazyListState, itemCount: Int) {
     LaunchedEffect(listState, itemCount) {
         snapshotFlow { listState.layoutInfo.visibleItemsInfo }
             .map { it.lastOrNull()?.index ?: 0 }
@@ -28,7 +28,7 @@ fun setupPagination(viewModel: BookViewModel, listState: LazyListState, itemCoun
 }
 
 @Composable
-fun setupPagination(viewModel: BookViewModel, gridState: LazyGridState, itemCount: Int) {
+fun SetupPagination(viewModel: BookViewModel, gridState: LazyGridState, itemCount: Int) {
     LaunchedEffect(gridState, itemCount) {
         snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
             .map { it.lastOrNull()?.index ?: 0 }

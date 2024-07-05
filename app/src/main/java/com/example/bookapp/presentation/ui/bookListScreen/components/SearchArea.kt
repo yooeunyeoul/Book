@@ -32,15 +32,21 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SearchArea(
     modifier: Modifier = Modifier,
+    query: String,
+    onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit
 ) {
-    var query by remember { mutableStateOf(TextFieldValue("")) }
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(query)) }
+
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
     TextField(
-        value = query,
-        onValueChange = { query = it },
+        value = textFieldValue,
+        onValueChange = { newValue ->
+            textFieldValue = newValue
+            onQueryChange(newValue.text)
+        },
         modifier = modifier
             .height(56.dp)
             .clip(RoundedCornerShape(50))
@@ -53,8 +59,11 @@ fun SearchArea(
             Icon(Icons.Default.Search, contentDescription = "Search Icon")
         },
         trailingIcon = {
-            if (query.text.isNotEmpty()) {
-                IconButton(onClick = { query = TextFieldValue("") }) {
+            if (textFieldValue.text.isNotEmpty()) {
+                IconButton(onClick = {
+                    textFieldValue = TextFieldValue("")
+                    onQueryChange("")
+                }) {
                     Icon(Icons.Default.Close, contentDescription = "Clear Icon")
                 }
             }
@@ -71,8 +80,8 @@ fun SearchArea(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                if (query.text.isNotEmpty()) {
-                    onSearch(query.text)
+                if (textFieldValue.text.isNotEmpty()) {
+                    onSearch(textFieldValue.text)
                 }
                 keyboardController?.hide()
                 focusManager.clearFocus()

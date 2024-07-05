@@ -2,7 +2,9 @@ package com.example.bookapp.presentation.ui.booksDetailScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,11 +43,13 @@ fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel = hiltViewMo
     }
 }
 
+
 @Composable
 fun BookDetailContent(book: BookDetail) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -61,20 +65,66 @@ fun BookDetailContent(book: BookDetail) {
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = book.title, style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
-        Text(text = book.subtitle, style = MaterialTheme.typography.bodyMedium, color = Color.Gray, textAlign = TextAlign.Center)
+        Text(
+            text = book.title,
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = book.subtitle,
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Gray,
+            textAlign = TextAlign.Center
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "Authors: ${book.authors}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        Text(text = "Publisher: ${book.publisher}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        Text(text = "ISBN-10: ${book.isbn10}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        Text(text = "ISBN-13: ${book.isbn13}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        Text(text = "Pages: ${book.pages}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        Text(text = "Year: ${book.year}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
-        Text(text = "Rating: ${book.rating}", style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
+        Text(
+            text = "Authors: ${book.authors}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "Publisher: ${book.publisher}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "ISBN-10: ${book.isbn10}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "ISBN-13: ${book.isbn13}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "Pages: ${book.pages}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "Year: ${book.year}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = "Rating: ${book.rating}",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = book.desc, style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Justify)
+        Text(
+            text = book.desc,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Justify
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = book.price, style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.primary)
+        Text(
+            text = book.price,
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary
+        )
         Spacer(modifier = Modifier.height(8.dp))
         book.pdf?.let { pdfs ->
             pdfs.forEach { (chapter, url) ->
@@ -88,7 +138,7 @@ fun BookDetailContent(book: BookDetail) {
 
 @Preview(showBackground = true)
 @Composable
-fun BookDetailScreenPreview() {
+fun BookDetailContentPreview() {
     val bookDetail = BookDetail(
         title = "Sample Book",
         subtitle = "Subtitle",
