@@ -8,9 +8,3 @@ data class BookDTO(
     val image: String,
     val url: String
 )
-
-data class BookResponse(
-    val error: String,
-    val total: String,
-    val books: List<BookDTO>
-)

@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.gson)
 
+    // coil
+    implementation(libs.coil.compose)
+
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
