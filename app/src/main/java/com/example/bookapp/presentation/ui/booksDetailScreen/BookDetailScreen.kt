@@ -36,19 +36,18 @@ import com.example.bookapp.presentation.viewmodel.BookDetailViewModel
 
 @Composable
 fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel = hiltViewModel()) {
-    val bookDetail by viewModel.bookDetail.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val bookDetail by viewModel.bookDetailState.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getBookDetail(isbn13)
     }
 
-    if (isLoading) {
+    if (bookDetail.isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     } else {
-        bookDetail?.let { book ->
+        bookDetail.let { book ->
             BookDetailContent(book = book)
         }
     }
@@ -137,8 +136,8 @@ fun BookDetailContent(book: BookDetailUiModel) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         book.pdf?.let { pdfs ->
-            pdfs.forEach { (chapter, url) ->
-                TextButton(onClick = { /* Open PDF */ }) {
+            pdfs.forEach { (chapter, _) ->
+                TextButton(onClick = {  }) {
                     Text(text = chapter)
                 }
             }

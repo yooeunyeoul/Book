@@ -2,13 +2,7 @@
 
 package com.example.bookapp.presentation.ui.bookListScreen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -30,12 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookapp.presentation.model.BookUiModel
-import com.example.bookapp.presentation.ui.bookListScreen.components.CustomToggleButton
-import com.example.bookapp.presentation.ui.bookListScreen.components.GridView
-import com.example.bookapp.presentation.ui.bookListScreen.components.ListView
-import com.example.bookapp.presentation.ui.bookListScreen.components.SearchArea
-import com.example.bookapp.presentation.ui.bookListScreen.components.SetupPagination
-import com.example.bookapp.presentation.ui.bookListScreen.components.ViewType
+import com.example.bookapp.presentation.ui.bookListScreen.components.*
 import com.example.bookapp.presentation.viewmodel.BookViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -50,8 +39,11 @@ fun BookListScreen(
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
 
-    SetupPagination(viewModel, listState, bookState.books.size, bookState.lastQuery)
-    SetupPagination(viewModel, gridState, bookState.books.size, bookState.lastQuery)
+    val shouldLoadMore = viewModel::shouldLoadMore
+    val loadMoreItems = { viewModel.searchBooks(bookState.lastQuery, isLoadMore = true) }
+
+    SetupPagination(listState, bookState.books.size, shouldLoadMore, loadMoreItems)
+    SetupPagination(gridState, bookState.books.size, shouldLoadMore, loadMoreItems)
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = bookState.isLoading,
