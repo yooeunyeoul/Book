@@ -5,8 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.bookapp.domain.usecase.GetNewBooksUseCase
 import com.example.bookapp.domain.usecase.SearchBooksUseCase
 import com.example.bookapp.presentation.model.BookListUiModel
-import com.example.bookapp.presentation.model.BookUiModel
-import com.example.bookapp.presentation.util.ResultState
+import com.example.bookapp.presentation.model.handleResultState
 import com.example.bookapp.presentation.util.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,18 +19,11 @@ class BookViewModel @Inject constructor(
     private val searchBooksUseCase: SearchBooksUseCase
 ) : ViewModel() {
 
-    private val _books = MutableStateFlow<List<BookUiModel>>(emptyList())
-    val books: StateFlow<List<BookUiModel>> = _books
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
+    private val _booksState = MutableStateFlow(BookListUiModel(isLoading = true))
+    val booksState: StateFlow<BookListUiModel> = _booksState
 
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
-
-    var lastQuery: String = ""
-    private var totalBooks: Int? = null // 전체 책의 수
-    private var pageSize: Int = 10 // 페이지당 항목 수, 기본값은 10
 
     init {
         getNewBooks()
@@ -39,35 +31,28 @@ class BookViewModel @Inject constructor(
 
     fun getNewBooks() {
         viewModelScope.launch {
-            _isLoading.value = true
-            getNewBooksUseCase.execute().collect { result ->
-                _books.value = result.books
-                totalBooks = result.total
-                _isLoading.value = false
-            }
+            getNewBooksUseCase.execute()
+                .asResult()
+                .collect { result ->
+                    _booksState.value = _booksState.value.handleResultState(result)
+                }
         }
     }
 
     fun searchBooks(query: String, isLoadMore: Boolean = false) {
-        if (isLoadMore) {
-            _isLoading.value = true
+        val nextPage = if (isLoadMore) (_booksState.value.books.size / _booksState.value.pageSize) + 1 else FIRST_PAGE
+        _booksState.value = if (isLoadMore) {
+            _booksState.value.copy(isLoading = true)
         } else {
-            lastQuery = query
-            _books.value = emptyList()
-            _isLoading.value = true
-            totalBooks = null // 새로운 검색 시 전체 책의 수 초기화
+            _booksState.value.copy(isLoading = true, lastQuery = query, totalBooks = null)
         }
 
         viewModelScope.launch {
-            searchBooksUseCase.execute(
-                query,
-                if (isLoadMore) (_books.value.size / pageSize) + 1 else 1
-            ).collect { result ->
-                _books.value = if (isLoadMore) _books.value + result.books else result.books
-                _isLoading.value = false
-                totalBooks = result.total // 전체 책의 수 저장
-                pageSize = result.books.size // 현재 페이지에서 반환된 항목 수를 페이지 크기로 설정
-            }
+            searchBooksUseCase.execute(query, nextPage)
+                .asResult()
+                .collect { result ->
+                    _booksState.value = _booksState.value.handleResultState(result, isLoadMore)
+                }
         }
     }
 
@@ -76,6 +61,10 @@ class BookViewModel @Inject constructor(
     }
 
     fun shouldLoadMore(): Boolean {
-        return !_isLoading.value && (_books.value.size < (totalBooks ?: Int.MAX_VALUE))
+        return !_booksState.value.isLoading && (_booksState.value.books.size < (_booksState.value.totalBooks ?: Int.MAX_VALUE))
+    }
+
+    companion object {
+        private const val FIRST_PAGE = 1
     }
 }

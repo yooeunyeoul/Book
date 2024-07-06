@@ -44,18 +44,17 @@ fun BookListScreen(
     onBookSelected: (String) -> Unit,
     viewModel: BookViewModel = hiltViewModel()
 ) {
-    val books by viewModel.books.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val bookState by viewModel.booksState.collectAsStateWithLifecycle()
     val query by viewModel.query.collectAsStateWithLifecycle()
     var viewType by rememberSaveable { mutableStateOf(ViewType.LIST) }
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
 
-    SetupPagination(viewModel, listState, books.size)
-    SetupPagination(viewModel, gridState, books.size)
+    SetupPagination(viewModel, listState, bookState.books.size, bookState.lastQuery)
+    SetupPagination(viewModel, gridState, bookState.books.size, bookState.lastQuery)
 
     val pullRefreshState = rememberPullRefreshState(
-        refreshing = isLoading,
+        refreshing = bookState.isLoading,
         onRefresh = {
             if (query.isEmpty()) {
                 viewModel.getNewBooks()
@@ -87,8 +86,19 @@ fun BookListScreen(
             CustomToggleButton(viewType, onSelected = { viewType = it })
         }
         Box(Modifier.fillMaxSize()) {
-            ContentArea(books, viewType, listState, gridState, isLoading, onBookSelected)
-            PullRefreshIndicator(isLoading, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            ContentArea(
+                bookState.books,
+                viewType,
+                listState,
+                gridState,
+                bookState.isLoading,
+                onBookSelected
+            )
+            PullRefreshIndicator(
+                bookState.isLoading,
+                pullRefreshState,
+                Modifier.align(Alignment.TopCenter)
+            )
         }
     }
 }

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 
 @Composable
-fun SetupPagination(viewModel: BookViewModel, listState: LazyListState, itemCount: Int) {
+fun SetupPagination(viewModel: BookViewModel, listState: LazyListState,itemCount:Int ,lastQuery: String) {
     LaunchedEffect(listState, itemCount) {
         snapshotFlow { listState.layoutInfo.visibleItemsInfo }
             .map { it.lastOrNull()?.index ?: 0 }
@@ -21,14 +21,14 @@ fun SetupPagination(viewModel: BookViewModel, listState: LazyListState, itemCoun
             .collect {
                 if (viewModel.shouldLoadMore()) {
                     Log.e("Pagination", "Loading more items")
-                    viewModel.searchBooks(viewModel.lastQuery, isLoadMore = true)
+                    viewModel.searchBooks(lastQuery, isLoadMore = true)
                 }
             }
     }
 }
 
 @Composable
-fun SetupPagination(viewModel: BookViewModel, gridState: LazyGridState, itemCount: Int) {
+fun SetupPagination(viewModel: BookViewModel, gridState: LazyGridState, itemCount: Int,lastQuery:String) {
     LaunchedEffect(gridState, itemCount) {
         snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
             .map { it.lastOrNull()?.index ?: 0 }
@@ -37,7 +37,7 @@ fun SetupPagination(viewModel: BookViewModel, gridState: LazyGridState, itemCoun
             .collect {
                 if (viewModel.shouldLoadMore()) {
                     Log.e("Pagination", "Loading more items")
-                    viewModel.searchBooks(viewModel.lastQuery, isLoadMore = true)
+                    viewModel.searchBooks(lastQuery, isLoadMore = true)
                 }
             }
     }
