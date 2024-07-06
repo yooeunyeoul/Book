@@ -8,7 +8,7 @@ data class BookListUiModel(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val lastQuery: String = "",
-    val totalBooks: Int? = null,
+    val totalBooks: Int? = 0,
     val pageSize: Int = 10
 )
 

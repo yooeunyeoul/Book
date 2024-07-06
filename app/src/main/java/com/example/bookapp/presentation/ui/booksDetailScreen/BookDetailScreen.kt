@@ -39,7 +39,9 @@ fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel = hiltViewMo
     val bookDetail by viewModel.bookDetailState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getBookDetail(isbn13)
+        viewModel.initialize {
+            viewModel.getBookDetail(isbn13)
+        }
     }
 
     if (bookDetail.isLoading) {

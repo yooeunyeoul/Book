@@ -1,6 +1,5 @@
 package com.example.bookapp.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookapp.domain.usecase.GetBookDetailUseCase
 import com.example.bookapp.presentation.model.BookDetailUiModel
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(
     private val getBookDetailUseCase: GetBookDetailUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _bookDetailState = MutableStateFlow(BookDetailUiModel(isLoading = true))
     val bookDetailState: StateFlow<BookDetailUiModel> = _bookDetailState

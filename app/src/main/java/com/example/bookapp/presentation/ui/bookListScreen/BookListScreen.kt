@@ -14,6 +14,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -41,6 +42,12 @@ fun BookListScreen(
 
     val shouldLoadMore = viewModel::shouldLoadMore
     val loadMoreItems = { viewModel.searchBooks(bookState.lastQuery, isLoadMore = true) }
+
+    LaunchedEffect(Unit) {
+        viewModel.initialize {
+            viewModel.getNewBooks()
+        }
+    }
 
     SetupPagination(listState, bookState.books.size, shouldLoadMore, loadMoreItems)
     SetupPagination(gridState, bookState.books.size, shouldLoadMore, loadMoreItems)
