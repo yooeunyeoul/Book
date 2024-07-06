@@ -18,7 +18,7 @@ fun SetupPagination(viewModel: BookViewModel, listState: LazyListState, itemCoun
             .map { it.lastOrNull()?.index ?: 0 }
             .distinctUntilChanged()
             .filter { it >= itemCount - 5 }
-            .collect { index ->
+            .collect {
                 if (viewModel.shouldLoadMore()) {
                     Log.e("Pagination", "Loading more items")
                     viewModel.searchBooks(viewModel.lastQuery, isLoadMore = true)
@@ -34,7 +34,7 @@ fun SetupPagination(viewModel: BookViewModel, gridState: LazyGridState, itemCoun
             .map { it.lastOrNull()?.index ?: 0 }
             .distinctUntilChanged()
             .filter { it >= itemCount - 5 }
-            .collect { index ->
+            .collect {
                 if (viewModel.shouldLoadMore()) {
                     Log.e("Pagination", "Loading more items")
                     viewModel.searchBooks(viewModel.lastQuery, isLoadMore = true)

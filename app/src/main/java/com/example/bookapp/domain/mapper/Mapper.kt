@@ -1,15 +1,14 @@
-package com.example.bookapp.data.remote.mapper
+package com.example.bookapp.domain.mapper
 
-import com.example.bookapp.data.remote.dto.BookDTO
-import com.example.bookapp.data.remote.dto.BookDetailResponse
-import com.example.bookapp.data.remote.dto.BookResponse
 import com.example.bookapp.domain.model.Book
 import com.example.bookapp.domain.model.BookDetail
 import com.example.bookapp.domain.model.BookList
+import com.example.bookapp.presentation.model.BookDetailUiModel
+import com.example.bookapp.presentation.model.BookListUiModel
+import com.example.bookapp.presentation.model.BookUiModel
 
-
-fun BookDTO.toDomainModel(): Book {
-    return Book(
+fun Book.toUiModel(): BookUiModel {
+    return BookUiModel(
         title = this.title,
         subtitle = this.subtitle,
         isbn13 = this.isbn13,
@@ -19,14 +18,16 @@ fun BookDTO.toDomainModel(): Book {
     )
 }
 
-fun BookResponse.toDomainModel(): BookList {
-    val totalBooks = this.total.toIntOrNull() ?: 0
-    val books = this.books.map { it.toDomainModel() }
-    return BookList(total = totalBooks, books = books)
+fun BookList.toUiModel(): BookListUiModel {
+    val books = this.books.map { it.toUiModel() }
+    return BookListUiModel(
+        total = this.total,
+        books = books
+    )
 }
 
-fun BookDetailResponse.toDomainModel(): BookDetail {
-    return BookDetail(
+fun BookDetail.toUiModel(): BookDetailUiModel {
+    return BookDetailUiModel(
         title = this.title,
         subtitle = this.subtitle,
         authors = this.authors,

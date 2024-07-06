@@ -2,9 +2,12 @@ package com.example.bookapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bookapp.domain.model.Book
 import com.example.bookapp.domain.usecase.GetNewBooksUseCase
 import com.example.bookapp.domain.usecase.SearchBooksUseCase
+import com.example.bookapp.presentation.model.BookListUiModel
+import com.example.bookapp.presentation.model.BookUiModel
+import com.example.bookapp.presentation.util.ResultState
+import com.example.bookapp.presentation.util.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +20,8 @@ class BookViewModel @Inject constructor(
     private val searchBooksUseCase: SearchBooksUseCase
 ) : ViewModel() {
 
-    private val _books = MutableStateFlow<List<Book>>(emptyList())
-    val books: StateFlow<List<Book>> = _books
+    private val _books = MutableStateFlow<List<BookUiModel>>(emptyList())
+    val books: StateFlow<List<BookUiModel>> = _books
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading

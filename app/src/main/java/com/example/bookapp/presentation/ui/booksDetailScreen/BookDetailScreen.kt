@@ -1,11 +1,22 @@
 package com.example.bookapp.presentation.ui.booksDetailScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.bookapp.domain.model.BookDetail
+import com.example.bookapp.presentation.model.BookDetailUiModel
 import com.example.bookapp.presentation.viewmodel.BookDetailViewModel
 
 @Composable
@@ -43,9 +54,8 @@ fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel = hiltViewMo
     }
 }
 
-
 @Composable
-fun BookDetailContent(book: BookDetail) {
+fun BookDetailContent(book: BookDetailUiModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -139,7 +149,7 @@ fun BookDetailContent(book: BookDetail) {
 @Preview(showBackground = true)
 @Composable
 fun BookDetailContentPreview() {
-    val bookDetail = BookDetail(
+    val bookDetail = BookDetailUiModel(
         title = "Sample Book",
         subtitle = "Subtitle",
         authors = "Author",

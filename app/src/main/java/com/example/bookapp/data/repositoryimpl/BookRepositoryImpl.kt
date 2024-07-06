@@ -3,14 +3,14 @@ package com.example.bookapp.data.repositoryimpl
 import com.example.bookapp.data.remote.api.BookApiService
 import com.example.bookapp.data.remote.mapper.toDomainModel
 import com.example.bookapp.domain.model.BookDetail
-import com.example.bookapp.domain.model.BookListWithTotal
+import com.example.bookapp.domain.model.BookList
 import com.example.bookapp.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class BookRepositoryImpl(private val bookApiService: BookApiService) : BookRepository {
 
-    override fun getNewBooks(): Flow<BookListWithTotal> = flow {
+    override fun getNewBooks(): Flow<BookList> = flow {
         val books = bookApiService.getNewBooks().toDomainModel()
         emit(books)
     }
@@ -20,7 +20,7 @@ class BookRepositoryImpl(private val bookApiService: BookApiService) : BookRepos
         emit(bookDetail)
     }
 
-    override fun searchBooks(query: String, page: Int): Flow<BookListWithTotal> = flow {
+    override fun searchBooks(query: String, page: Int): Flow<BookList> = flow {
         val books = bookApiService.searchBooks(query, page).toDomainModel()
         emit(books)
     }

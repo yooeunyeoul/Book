@@ -1,6 +1,6 @@
 package com.example.bookapp.domain.model
 
-data class BookListWithTotal(
+data class BookList(
     val total: Int,
     val books: List<Book>
 )

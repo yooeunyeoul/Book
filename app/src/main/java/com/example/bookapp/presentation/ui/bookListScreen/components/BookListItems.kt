@@ -30,13 +30,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.bookapp.domain.model.Book
+import com.example.bookapp.presentation.model.BookUiModel
 import com.example.bookapp.presentation.util.clickableSingle
-
 
 @Composable
 fun ListView(
-    books: List<Book>,
+    books: List<BookUiModel>,
     listState: LazyListState,
     onBookSelected: (String) -> Unit
 ) {
@@ -49,7 +48,7 @@ fun ListView(
 
 @Composable
 fun GridView(
-    books: List<Book>,
+    books: List<BookUiModel>,
     gridState: LazyGridState,
     onBookSelected: (String) -> Unit
 ) {
@@ -63,8 +62,9 @@ fun GridView(
         }
     }
 }
+
 @Composable
-fun BookListItem(book: Book, onBookSelected: (String) -> Unit) {
+fun BookListItem(book: BookUiModel, onBookSelected: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,8 +94,9 @@ fun BookListItem(book: Book, onBookSelected: (String) -> Unit) {
         }
     }
 }
+
 @Composable
-fun BookGridItem(book: Book, onBookSelected: (String) -> Unit) {
+fun BookGridItem(book: BookUiModel, onBookSelected: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -117,10 +118,11 @@ fun BookGridItem(book: Book, onBookSelected: (String) -> Unit) {
         Text(text = book.price, style = MaterialTheme.typography.bodyMedium)
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun BookGridItemPreview() {
-    val book = Book(
+    val book = BookUiModel(
         title = "Sample Book Title",
         subtitle = "Sample Book Subtitle",
         isbn13 = "1234567890123",
@@ -128,7 +130,19 @@ fun BookGridItemPreview() {
         image = "https://itbook.store/img/books/9781617291609.png",
         url = "https://itbook.store/books/9781617291609"
     )
-    BookGridItem(book = book){
+    BookGridItem(book = book) {}
+}
 
-    }
+@Preview(showBackground = true)
+@Composable
+fun BookListItemPreview() {
+    val book = BookUiModel(
+        title = "Sample Book Title",
+        subtitle = "Sample Book Subtitle",
+        isbn13 = "1234567890123",
+        price = "$29.99",
+        image = "https://itbook.store/img/books/9781617291609.png",
+        url = "https://itbook.store/books/9781617291609"
+    )
+    BookListItem(book = book) {}
 }

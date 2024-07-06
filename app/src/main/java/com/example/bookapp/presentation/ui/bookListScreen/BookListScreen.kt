@@ -29,7 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.bookapp.domain.model.Book
+import com.example.bookapp.presentation.model.BookUiModel
 import com.example.bookapp.presentation.ui.bookListScreen.components.CustomToggleButton
 import com.example.bookapp.presentation.ui.bookListScreen.components.GridView
 import com.example.bookapp.presentation.ui.bookListScreen.components.ListView
@@ -95,7 +95,7 @@ fun BookListScreen(
 
 @Composable
 fun ContentArea(
-    books: List<Book>,
+    books: List<BookUiModel>,
     viewType: ViewType,
     listState: LazyListState,
     gridState: LazyGridState,
