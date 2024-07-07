@@ -30,7 +30,7 @@ class BookViewModel @Inject constructor(
             getNewBooksUseCase.execute()
                 .asResult()
                 .collect { result ->
-                    _booksState.value = _booksState.value.handleResultState(result)
+                    _booksState.update { it.handleResultState(result) }
                 }
         }
     }
@@ -38,18 +38,18 @@ class BookViewModel @Inject constructor(
     fun searchBooks(query: String, isLoadMore: Boolean = false) {
         val nextPage =
             if (isLoadMore) (_booksState.value.books.size / _booksState.value.pageSize) + 1 else FIRST_PAGE
-        _booksState.value = if (isLoadMore) {
-            _booksState.value.copy(isLoading = true)
-        } else {
-            _booksState.value.copy(isLoading = true, lastQuery = query, totalBooks = null)
-        }
+        _booksState.update {
+            if (isLoadMore) {
+                it.copy(isLoading = true)
+            } else {
+                it.copy(isLoading = true, lastQuery = query, totalBooks = null)
+            } }
 
         viewModelScope.launch {
             searchBooksUseCase.execute(query, nextPage)
                 .asResult()
                 .collect { result ->
                     _booksState.update { it.handleResultState(result,isLoadMore) }
-                    _booksState.value = _booksState.value.handleResultState(result, isLoadMore)
                 }
         }
     }
