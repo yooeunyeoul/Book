@@ -84,7 +84,7 @@ fun BookListItem(book: BookUiModel, onBookSelected: (String) -> Unit) {
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxHeight()
         ) {
-            Text(text = book.title, style = MaterialTheme.typography.titleLarge)
+            Text(text = book.title, style = MaterialTheme.typography.titleMedium)
             Text(
                 text = book.subtitle,
                 style = MaterialTheme.typography.bodyMedium,
@@ -113,9 +113,9 @@ fun BookGridItem(book: BookUiModel, onBookSelected: (String) -> Unit) {
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = book.title, style = MaterialTheme.typography.titleLarge)
-        Text(text = book.subtitle, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
-        Text(text = book.price, style = MaterialTheme.typography.bodyMedium)
+        Text(text = book.title, style = MaterialTheme.typography.titleSmall)
+        Text(text = book.subtitle, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+        Text(text = book.price, style = MaterialTheme.typography.bodySmall)
     }
 }
 
