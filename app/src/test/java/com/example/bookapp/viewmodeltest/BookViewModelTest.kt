@@ -1,3 +1,5 @@
+package com.example.bookapp.viewmodeltest
+
 import com.example.bookapp.domain.mapper.toUiModel
 import com.example.bookapp.domain.model.Book
 import com.example.bookapp.domain.usecase.GetNewBooksUseCase
@@ -74,10 +76,19 @@ class BookViewModelTest {
     @Test
     fun `searchBooks should update booksState with search results`() = runTest {
         // Given
-        val query = "Title"
+        val query = ""
         val bookList = listOf(
             Book(title = "Title1", subtitle = "Subtitle1", isbn13 = "ISBN1", price = "$10", image = "Image1", url = "Url1"),
+            Book(title = "Title2", subtitle = "Subtitle2", isbn13 = "ISBN2", price = "$20", image = "Image2", url = "Url2"),
+            Book(title = "Title1", subtitle = "Subtitle1", isbn13 = "ISBN1", price = "$10", image = "Image1", url = "Url1"),
+            Book(title = "Title2", subtitle = "Subtitle2", isbn13 = "ISBN2", price = "$20", image = "Image2", url = "Url2"),
+            Book(title = "Title1", subtitle = "Subtitle1", isbn13 = "ISBN1", price = "$10", image = "Image1", url = "Url1"),
+            Book(title = "Title2", subtitle = "Subtitle2", isbn13 = "ISBN2", price = "$20", image = "Image2", url = "Url2"),
+            Book(title = "Title1", subtitle = "Subtitle1", isbn13 = "ISBN1", price = "$10", image = "Image1", url = "Url1"),
+            Book(title = "Title2", subtitle = "Subtitle2", isbn13 = "ISBN2", price = "$20", image = "Image2", url = "Url2"),
+            Book(title = "Title1", subtitle = "Subtitle1", isbn13 = "ISBN1", price = "$10", image = "Image1", url = "Url1"),
             Book(title = "Title2", subtitle = "Subtitle2", isbn13 = "ISBN2", price = "$20", image = "Image2", url = "Url2")
+
         )
         val bookListUiModel = BookListUiModel(books = bookList.map { it.toUiModel() })
         val flow: Flow<BookListUiModel> = flowOf(bookListUiModel)
@@ -90,7 +101,7 @@ class BookViewModelTest {
         // Then
         val state = bookViewModel.booksState.first()
         assertEquals(bookListUiModel, state)
-//        verify(searchBooksUseCase).execute(query, BookViewModel.FIRST_PAGE)
+        verify(searchBooksUseCase).execute(query, BookViewModel.FIRST_PAGE)
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.example.bookapp
+package com.example.bookapp.usecasetest
 
 import com.example.bookapp.domain.mapper.toUiModel
 import com.example.bookapp.domain.model.Book
